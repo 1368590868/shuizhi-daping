@@ -8,6 +8,7 @@ import CenterBottom from "./center-bottom.vue";
 import RightTop from "./right-top.vue";
 import RightCenter from "./right-center.vue";
 import RightBottom from "./right-bottom.vue";
+import Video from "./video.vue";
 </script>
 
 <template>
@@ -32,7 +33,8 @@ import RightBottom from "./right-bottom.vue";
       </ItemWrap>
     </div>
     <div class="contetn_center">
-      <CenterMap class="contetn_center_top" title="设备分布图" />
+      <Video />
+      <!-- <CenterMap class="contetn_center_top" title="设备分布图" /> -->
       <ItemWrap class="contetn_center-bottom" title="安装计划">
         <CenterBottom />
       </ItemWrap>
