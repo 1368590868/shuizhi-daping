@@ -3,6 +3,9 @@ import { ref, onMounted } from "vue";
 import { alarmNum } from "@/api";
 import { graphic } from "echarts/core";
 import { ElMessage } from "element-plus";
+import {useRequest} from "@/stores/index"
+
+const {times}  = useRequest()
 
 const option = ref({});
 const getData = () => {
@@ -26,7 +29,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[]) => {
   option.value = {
     xAxis: {
       type: "category",
-      data: xData,
+      data: times.jsllTime,
       boundaryGap: false, // 不留白，从原点开始
       splitLine: {
         show: true,
@@ -128,7 +131,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[]) => {
                 padding: [7, 14],
                 borderWidth: 0.5,
                 borderColor: "rgba(252,144,16,.5)",
-                formatter: "报警1：{c}",
+                formatter: "出水悬浮物：{c}",
               },
             },
             {
@@ -195,7 +198,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[]) => {
                 borderRadius: 6,
                 borderColor: "rgba(9,202,243,.5)",
                 padding: [7, 14],
-                formatter: "报警2：{c}",
+                formatter: "进水悬浮物：{c}",
                 borderWidth: 0.5,
               },
             },

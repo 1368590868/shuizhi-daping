@@ -1,20 +1,19 @@
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import CapsuleChart from "@/components/datav/capsule-chart";
-import { ranking } from "@/api";
+import { ref, reactive, onMounted, nextTick } from "vue";
+import { installationPlan } from "@/api";
+import { graphic } from "echarts/core";
 import { ElMessage } from "element-plus";
+import {useRequest} from "@/stores/index"
 
-const config = ref({
-  showValue: true,
-  unit: "次",
-});
-const data = ref([]);
+const {times}  = useRequest()
+
+const option = ref({});
 const getData = () => {
-  ranking()
+  installationPlan()
     .then((res) => {
-      console.log("右中--报警排名", res);
+      console.log("中下--安装计划", res);
       if (res.success) {
-        data.value = res.data;
+        setOption(res.data);
       } else {
         ElMessage({
           message: res.msg,
@@ -26,18 +25,99 @@ const getData = () => {
       ElMessage.error(err);
     });
 };
-getData();
+const setOption = async (newData: any) => {
+  option.value = {
+
+    color: ['#80FFA5',  '#FF0087'],
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'cross',
+      label: {
+        backgroundColor: '#6a7985'
+      }
+    }
+  },
+  legend: {
+    data: ['1号', '2号']
+  },
+    grid: {
+      left: "50px",
+      right: "40px",
+      bottom: "30px",
+      top: "20px",
+    },
+    xAxis: {
+      data: times.jsllTime,
+      axisLine: {
+        lineStyle: {
+          color: "#B4B4B4",
+        },
+      },
+      axisTick: {
+        show: false,
+      },
+    },
+    yAxis: [
+      {
+        splitLine: { show: false },
+        axisLine: {
+          lineStyle: {
+            color: "#B4B4B4",
+          },
+        },
+
+        axisLabel: {
+          formatter: "{value}",
+        },
+      },
+      {
+        splitLine: { show: false },
+        axisLine: {
+          lineStyle: {
+            color: "#B4B4B4",
+          },
+        },
+        axisLabel: {
+          formatter: "{value}% ",
+        },
+      },
+    ],
+    series: [
+      {
+        name: "1号",
+        type: "line",
+        barWidth: 10,
+        itemStyle: {
+          borderRadius: 5,
+          color: "#956FD4"
+        },
+        data: newData.barData,
+      },
+      {
+        name: "2号",
+        type: "line",
+        barGap: "-100%",
+        barWidth: 10,
+        itemStyle: {
+          itemStyle: {
+          color: "#F02FC2",
+        },
+        },
+        z: -12,
+        data: newData.lineData,
+      },
+
+    ],
+  };
+};
+onMounted(() => {
+  getData();
+});
 </script>
 
 <template>
-  <div class="right_bottom">
-    <CapsuleChart :config="config" style="width: 100%; height: 260px" :data="data" />
-  </div>
+  <v-chart class="chart" :option="option" v-if="JSON.stringify(option) != '{}'" />
 </template>
 
-<style scoped lang="scss">
-.right_bottom {
-  box-sizing: border-box;
-  padding: 0 16px;
-}
-</style>
+<style scoped lang="scss"></style>

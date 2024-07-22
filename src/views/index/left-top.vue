@@ -1,129 +1,119 @@
 <script setup lang="ts">
-import { reactive, ref } from "vue";
-import { countDeviceNum } from "@/api";
-import CountUp from "@/components/count-up";
+import { ref, reactive, onMounted } from "vue";
+import { graphic } from "echarts/core";
+import { countUserNum } from "@/api";
 import {ElMessage} from "element-plus"
+import  * as echarts from "echarts";
 
-const duration = ref(2);
+
+let colors = ["#0BFC7F", "#A0A0A0", "#F48C02", "#F4023C"];
+const option = ref({});
 const state = reactive({
-  alarmNum: 0,
+  lockNum: 0,
   offlineNum: 0,
   onlineNum: 0,
+  alarmNum: 0,
   totalNum: 0,
 });
 
-
+const gaugeData = ref( [
+  {
+    value: 20,
+    name: '进水PH',
+    title: {
+      offsetCenter: ['-40%', '80%']
+    },
+    detail: {
+      offsetCenter: ['-40%', '95%']
+    }
+  },
+  {
+    value: 40,
+    name: '出水PH',
+    title: {
+      offsetCenter: ['0%', '80%']
+    },
+    detail: {
+      offsetCenter: ['0%', '95%']
+    }
+  },
+]);
 const getData = () => {
-  countDeviceNum().then((res) => {
-    console.log("左上--设备总览",res);
+  countUserNum().then((res) => {
+    console.log("左中--用户总览",res);
     if (res.success) {
-      state.alarmNum = res.data.alarmNum;
+      state.lockNum = res.data.lockNum;
       state.offlineNum = res.data.offlineNum;
       state.onlineNum = res.data.onlineNum;
       state.totalNum = res.data.totalNum;
+      state.alarmNum = res.data.alarmNum;
+      setOption();
     }else{
       ElMessage.error(res.msg)
     }
   }).catch(err=>{
     ElMessage.error(err)
-  });;
+  });
 };
 getData();
+const setOption = () => {
+  option.value =  {
+  series: [
+    {
+      type: 'gauge',
+      anchor: {
+        show: true,
+        showAbove: true,
+        size: 14,
+        itemStyle: {
+          color: '#FAC858'
+        }
+      },
+      pointer: {
+        icon: 'path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z',
+        width: 6,
+        length: '80%',
+        offsetCenter: [0, '8%']
+      },
+      progress: {
+        show: true,
+        overlap: true,
+        roundCap: true
+      },
+      axisLine: {
+        roundCap: true
+      },
+      data: gaugeData.value,
+      title: {
+        fontSize: 12
+      },
+      detail: {
+        width: 20,
+        height: 12,
+        fontSize: 12,
+        color: '#fff',
+        backgroundColor: 'inherit',
+        borderRadius: 3,
+        formatter: '{value}',
+        offsetCenter: [0, '10%']
+      }
+    }
+  ],
+
+};
+};
+
+onMounted(()=>{
+  setInterval(function () {
+  gaugeData.value[0].value = +(Math.random() * 100).toFixed(2);
+  gaugeData.value[1].value = +(Math.random() * 100).toFixed(2);
+
+}, 2000);
+})
 </script>
 
 <template>
-  <ul class="user_Overview flex">
-    <li class="user_Overview-item" style="color: #00fdfa">
-      <div class="user_Overview_nums allnum">
-        <CountUp :endVal="state.totalNum" :duration="duration" />
-      </div>
-      <p>总设备数</p>
-    </li>
-    <li class="user_Overview-item" style="color: #07f7a8">
-      <div class="user_Overview_nums online">
-        <CountUp :endVal="state.onlineNum" :duration="duration" />
-      </div>
-      <p>在线数</p>
-    </li>
-    <li class="user_Overview-item" style="color: #e3b337">
-      <div class="user_Overview_nums offline">
-        <CountUp :endVal="state.offlineNum" :duration="duration" />
-      </div>
-      <p>掉线数</p>
-    </li>
-    <li class="user_Overview-item" style="color: #f5023d">
-      <div class="user_Overview_nums laramnum">
-        <CountUp :endVal="state.alarmNum" :duration="duration" />
-      </div>
-      <p>告警次数</p>
-    </li>
-  </ul>
+  <v-chart class="chart" :option="option" />
 </template>
 
-<style scoped lang="scss">
-.left-top {
-  width: 100%;
-  height: 100%;
-}
-
-.user_Overview {
-  li {
-    flex: 1;
-
-    p {
-      text-align: center;
-      height: 16px;
-      font-size: 16px;
-    }
-
-    .user_Overview_nums {
-      width: 100px;
-      height: 100px;
-      text-align: center;
-      line-height: 100px;
-      font-size: 22px;
-      margin: 50px auto 30px;
-      background-size: cover;
-      background-position: center center;
-      position: relative;
-
-      &::before {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-      }
-
-      &.bgdonghua::before {
-        animation: rotating 14s linear infinite;
-      }
-    }
-
-    .allnum {
-      &::before {
-        background-image: url("@/assets/img/left_top_lan.png");
-      }
-    }
-
-    .online {
-      &::before {
-        background-image: url("@/assets/img/left_top_lv.png");
-      }
-    }
-
-    .offline {
-      &::before {
-        background-image: url("@/assets/img/left_top_huang.png");
-      }
-    }
-
-    .laramnum {
-      &::before {
-        background-image: url("@/assets/img/left_top_hong.png");
-      }
-    }
-  }
-}
-</style>
+<style scoped lang="scss"></style>

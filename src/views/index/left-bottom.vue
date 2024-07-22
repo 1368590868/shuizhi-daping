@@ -20,26 +20,65 @@ const state = reactive<any>({
 });
 
 const getData = () => {
-  leftBottom( { limitNum: 20 })
-    .then((res) => {
-      console.log("左下--设备提醒", res);
-      if (res.success) {
-        state.list = res.data.list;
-      } else {
-        ElMessage({
-          message: res.msg,
-          type: "warning",
-        });
-      }
-    })
-    .catch((err) => {
-      ElMessage.error(err);
-    });
+  // leftBottom( { limitNum: 20 })
+  //   .then((res) => {
+  //     console.log("左下--设备提醒", res);
+  //     if (res.success) {
+  //       state.list = res.data.list;
+  //       console.log("左下--设备提醒", state.list);
+  //     } else {
+  //       ElMessage({
+  //         message: res.msg,
+  //         type: "warning",
+  //       });
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     ElMessage.error(err);
+  //   });
+  state.list = [
+    {
+        "deviceName": "转股过滤器反洗泵运行信号",
+        "cityName": "重庆市",
+        "countyName": "-",
+        "createTime": "1995-04-11 05:17:34",
+        "deviceId": "40017",
+        "gatewayno": 10000,
+        "onlineState": 1
+    },
+    {
+        "deviceName": "转股过滤器转鼓转筒运行信号",
+        "cityName": "重庆市",
+        "countyName": "重庆市",
+        "createTime": "2024-06-07 09:33:07",
+        "deviceId": "40018",
+        "gatewayno": 10001,
+        "onlineState": 1
+    },
+    {
+        "deviceName": "转股过滤器反洗泵运行信号",
+        "cityName": "重庆市",
+        "countyName": "重庆市",
+        "createTime": "2007-01-05 03:15:15",
+        "deviceId": "40019",
+        "gatewayno": 10002,
+        "onlineState": 1
+    },
+    {
+        "deviceName": "转股过滤器转鼓转筒运行信号",
+        "cityName": "重庆市",
+        "countyName": "重庆市",
+        "createTime": "2005-07-20 06:08:20",
+        "deviceId": "40020",
+        "gatewayno": 10003,
+        "onlineState": 1
+    }
+]
 };
 const addressHandle = (item: any) => {
-  let name = item.provinceName;
+  let name =''
   if (item.cityName) {
-    name += "/" + item.cityName;
+    name +=   item.cityName ;
     if (item.countyName) {
       name += "/" + item.countyName;
     }
@@ -78,13 +117,13 @@ onMounted(() => {
             <div class="dibu"></div>
             <div class="flex">
               <div class="info">
-                <span class="labels">设备ID：</span>
-                <span class="text-content zhuyao doudong wangguan"> {{ item.gatewayno }}</span>
+                <span class="labels">设备名称：</span>
+                <span class="text-content zhuyao doudong wangguan"> {{ item.deviceName }}</span>
               </div>
-              <div class="info">
+              <!-- <div class="info">
                 <span class="labels">时间：</span>
                 <span class="text-content" style="font-size: 12px"> {{ item.createTime }}</span>
-              </div>
+              </div> -->
             </div>
 
             <span
@@ -195,7 +234,6 @@ onMounted(() => {
       color: #1890ff;
       font-weight: 900;
       font-size: 15px;
-      width: 80px;
       flex-shrink: 0;
     }
 

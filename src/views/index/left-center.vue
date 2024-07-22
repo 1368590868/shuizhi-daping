@@ -3,6 +3,10 @@ import { ref, reactive } from "vue";
 import { graphic } from "echarts/core";
 import { countUserNum } from "@/api";
 import {ElMessage} from "element-plus"
+import  * as echarts from "echarts";
+import {useRequest} from "@/stores/index"
+
+const {times}  = useRequest()
 
 let colors = ["#0BFC7F", "#A0A0A0", "#F48C02", "#F4023C"];
 const option = ref({});
@@ -39,114 +43,166 @@ const getData = () => {
 getData();
 const setOption = () => {
   option.value = {
-    title: {
-      top: "center",
-      left: "center",
-      text: [`{value|${state.totalNum}}`, "{name|总数}"].join("\n"),
-      textStyle: {
-        rich: {
-          value: {
-            color: "#ffffff",
-            fontSize: 24,
-            fontWeight: "bold",
-            lineHeight: 20,
-            padding:[4,0,4,0]
-          },
-          name: {
-            color: "#ffffff",
-            lineHeight: 20,
-          },
-        },
-      },
-    },
-    tooltip: {
-      trigger: "item",
-      backgroundColor: "rgba(0,0,0,.6)",
-      borderColor: "rgba(147, 235, 248, .8)",
-      textStyle: {
-        color: "#FFF",
-      },
-    },
-    series: [
-      {
-        name: "用户总览",
-        type: "pie",
-        radius: ["40%", "70%"],
-        // avoidLabelOverlap: false,
-        itemStyle: {
-          borderRadius: 6,
-          borderColor: "rgba(255,255,255,0)",
-          borderWidth: 2,
-        },
-        color: colors,
-        label: {
-          show: true,
-          formatter: "   {b|{b}}   \n   {c|{c}个}   {per|{d}%}  ",
-          //   position: "outside",
-          rich: {
-            b: {
-              color: "#fff",
-              fontSize: 12,
-              lineHeight: 26,
-            },
-            c: {
-              color: "#31ABE3",
-              fontSize: 14,
-            },
-            per: {
-              color: "#31ABE3",
-              fontSize: 14,
-            },
-          },
-        },
-        emphasis: {
-          show: false,
-        },
-        legend: {
-          show: false,
-        },
-        tooltip: { show: true },
+  color: ['#80FFA5',  '#FF0087'],
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'cross',
+      label: {
+        backgroundColor: '#6a7985'
+      }
+    }
+  },
+  legend: {
+    data: ['进水', '出水']
+  },
+  toolbox: {
+    feature: {
+    }
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: [
+    {
+      type: 'category',
+      boundaryGap: false,
+      data: times.jsllTime
+    }
+  ],
+  yAxis: [
+    {
+      type: 'value'
+    }
+  ],
 
-        labelLine: {
-          show: true,
-          length: 20, // 第一段线 长度
-          length2: 36, // 第二段线 长度
-          smooth: 0.2,
-          lineStyle: {},
-        },
-        data: [
-          {
-            value: state.onlineNum,
-            name: "在线",
-            itemStyle: {
-              color: echartsGraphic(["#0BFC7F", "#A3FDE0"]),
-            },
-          },
-          {
-            value: state.offlineNum,
-            name: "离线",
-            itemStyle: {
-              color: echartsGraphic(["#A0A0A0", "#DBDFDD"]),
-            },
-          },
-          {
-            value: state.lockNum,
-            name: "锁定",
-            itemStyle: {
-              color: echartsGraphic(["#F48C02", "#FDDB7D"]),
-            },
-          },
-          {
-            value: state.alarmNum,
-            name: "异常",
-            itemStyle: {
-              color: echartsGraphic(["#F4023C", "#FB6CB7"]),
-            },
-          },
-        ],
+  series: [
+    {
+      name: '进水',
+      type: 'line',
+      stack: 'Total',
+      smooth: true,
+      lineStyle: {
+        width: 0
       },
-    ],
-  };
+      showSymbol: false,
+      areaStyle: {
+        opacity: 0.8,
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: 'rgb(128, 255, 165)'
+          },
+          {
+            offset: 1,
+            color: 'rgb(1, 191, 236)'
+          }
+        ])
+      },
+      emphasis: {
+        focus: 'series'
+      },
+      data: [140, 232, 101, 264, 90, 340, 250],
+      markPoint: {
+          data: [
+            {
+              name: "最大值",
+              type: "max",
+              valueDim: "y",
+              symbol: "rect",
+              symbolSize: [60, 26],
+              symbolOffset: [0, -20],
+              itemStyle: {
+                color: "rgba(0,0,0,0)",
+              },
+              label: {
+                color: "#FC9010",
+                backgroundColor: "#80FFA5",
+                borderRadius: 6,
+                padding: [7, 14],
+                borderWidth: 0.5,
+                borderColor: "#80FFA5",
+                formatter: "最大进水：{c}",
+              },
+            },
+            {
+              name: "最大值",
+              type: "max",
+              valueDim: "y",
+              symbol: "circle",
+              symbolSize: 6,
+              itemStyle: {
+                color: "#FC9010",
+                shadowColor: "#FC9010",
+                shadowBlur: 8,
+              },
+              label: {
+                formatter: "",
+              },
+            },
+          ],
+        },
+    },
+
+
+    {
+      name: '出水',
+      type: 'line',
+      stack: 'Total',
+      smooth: true,
+      lineStyle: {
+        width: 0
+      },
+      showSymbol: false,
+      areaStyle: {
+        opacity: 0.8,
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: 'rgb(255, 0, 135)'
+          },
+          {
+            offset: 1,
+            color: 'rgb(135, 0, 157)'
+          }
+        ])
+      },
+      emphasis: {
+        focus: 'series'
+      },
+      data: times.jsll,
+      markPoint: {
+          data: [
+            {
+              name: "最大值",
+              type: "max",
+              valueDim: "y",
+              symbol: "rect",
+              symbolSize: [60, 26],
+              symbolOffset: [0, -20],
+              itemStyle: {
+                color: "rgba(0,0,0,0)",
+              },
+              label: {
+                color: "#fff",
+                backgroundColor: "#FF0087",
+                borderRadius: 6,
+                padding: [7, 14],
+                borderWidth: 0.5,
+                borderColor: "#FF0087",
+                formatter: "最大出水：{c}",
+              },
+            },
+
+          ],
+        },
+    },
+
+  ]
+};
 };
 </script>
 
