@@ -6,7 +6,9 @@ import { useSettingStore } from "@/stores";
 import { storeToRefs } from "pinia";
 import EmptyCom from "@/components/empty-com";
 import { ElMessage } from "element-plus";
+import { useRequest } from "@/stores";
 
+const {times} = useRequest()
 const settingStore = useSettingStore();
 const { defaultOption, indexConfig } = storeToRefs(settingStore);
 const state = reactive<any>({
@@ -18,73 +20,6 @@ const state = reactive<any>({
   },
   scroll: true,
 });
-
-const getData = () => {
-  // leftBottom( { limitNum: 20 })
-  //   .then((res) => {
-  //     console.log("左下--设备提醒", res);
-  //     if (res.success) {
-  //       state.list = res.data.list;
-  //       console.log("左下--设备提醒", state.list);
-  //     } else {
-  //       ElMessage({
-  //         message: res.msg,
-  //         type: "warning",
-  //       });
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     ElMessage.error(err);
-  //   });
-  state.list = [
-    {
-        "deviceName": "转股过滤器反洗泵运行信号",
-        "cityName": "重庆市",
-        "countyName": "-",
-        "createTime": "1995-04-11 05:17:34",
-        "deviceId": "40017",
-        "gatewayno": 10000,
-        "onlineState": 1
-    },
-    {
-        "deviceName": "转股过滤器转鼓转筒运行信号",
-        "cityName": "重庆市",
-        "countyName": "重庆市",
-        "createTime": "2024-06-07 09:33:07",
-        "deviceId": "40018",
-        "gatewayno": 10001,
-        "onlineState": 1
-    },
-    {
-        "deviceName": "转股过滤器反洗泵运行信号",
-        "cityName": "重庆市",
-        "countyName": "重庆市",
-        "createTime": "2007-01-05 03:15:15",
-        "deviceId": "40019",
-        "gatewayno": 10002,
-        "onlineState": 1
-    },
-    {
-        "deviceName": "转股过滤器转鼓转筒运行信号",
-        "cityName": "重庆市",
-        "countyName": "重庆市",
-        "createTime": "2005-07-20 06:08:20",
-        "deviceId": "40020",
-        "gatewayno": 10003,
-        "onlineState": 1
-    }
-]
-};
-const addressHandle = (item: any) => {
-  let name =''
-  if (item.cityName) {
-    name +=   item.cityName ;
-    if (item.countyName) {
-      name += "/" + item.countyName;
-    }
-  }
-  return name;
-};
 const comName = computed(() => {
   if (indexConfig.value.leftBottomSwiper) {
     return SeamlessScroll;
@@ -92,16 +27,13 @@ const comName = computed(() => {
     return EmptyCom;
   }
 });
-onMounted(() => {
-  getData();
-});
 </script>
 
 <template>
   <div class="left_boottom_wrap beautify-scroll-def" :class="{ 'overflow-y-auto': !indexConfig.leftBottomSwiper }">
     <component
       :is="comName"
-      :list="state.list"
+      :list="times.list"
       v-model="state.scroll"
       :singleHeight="state.defaultOption.singleHeight"
       :step="state.defaultOption.step"
@@ -111,7 +43,7 @@ onMounted(() => {
       :wheel="state.defaultOption.wheel"
     >
       <ul class="left_boottom">
-        <li class="left_boottom_item" v-for="(item, i) in state.list" :key="i">
+        <li class="left_boottom_item" v-for="(item, i) in times.list" :key="i">
           <span class="orderNum doudong">{{ i + 1 }}</span>
           <div class="inner_right">
             <div class="dibu"></div>
@@ -132,12 +64,12 @@ onMounted(() => {
                 typeRed: item.onlineState == 0,
                 typeGreen: item.onlineState == 1,
               }"
-              >{{ item.onlineState == 1 ? "上线" : "下线" }}</span
+              >{{ item.onlineState == 1 ? "运行" : "停止" }}  </span
             >
 
             <div class="info addresswrap">
               <span class="labels">地址：</span>
-              <span class="text-content ciyao" style="font-size: 12px"> {{ addressHandle(item) }}</span>
+              <span class="text-content ciyao" style="font-size: 12px"> 重庆市</span>
             </div>
           </div>
         </li>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watchEffect } from "vue";
 import { alarmNum } from "@/api";
 import { graphic } from "echarts/core";
 import { ElMessage } from "element-plus";
@@ -8,24 +8,8 @@ import {useRequest} from "@/stores/index"
 const {times}  = useRequest()
 
 const option = ref({});
-const getData = () => {
-  alarmNum()
-    .then((res) => {
-      console.log("右上--报警次数 ", res);
-      if (res.success) {
-        setOption(res.data.dateList, res.data.numList, res.data.numList2);
-      } else {
-        ElMessage({
-          message: res.msg,
-          type: "warning",
-        });
-      }
-    })
-    .catch((err) => {
-      ElMessage.error(err);
-    });
-};
-const setOption = async (xData: any[], yData: any[], yData2: any[]) => {
+watchEffect(()=>{
+  const setOption = async () => {
   option.value = {
     xAxis: {
       type: "category",
@@ -66,6 +50,12 @@ const setOption = async (xData: any[], yData: any[], yData2: any[]) => {
         fontWeight: "500",
       },
     },
+    legend: {
+    data: ['进水悬浮物', '出水悬浮物'],
+    textStyle: {
+      color: '#fff'
+    }
+  },
     tooltip: {
       trigger: "axis",
       backgroundColor: "rgba(0,0,0,.6)",
@@ -86,11 +76,11 @@ const setOption = async (xData: any[], yData: any[], yData2: any[]) => {
     },
     series: [
       {
-        data: yData,
+        data: times.jsxf,
         type: "line",
         smooth: true,
         symbol: "none", //去除点
-        name: "报警1次数",
+        name: "进水悬浮物",
         color: "rgba(252,144,16,.7)",
         areaStyle: {
           //右，下，左，上
@@ -131,7 +121,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[]) => {
                 padding: [7, 14],
                 borderWidth: 0.5,
                 borderColor: "rgba(252,144,16,.5)",
-                formatter: "出水悬浮物：{c}",
+                formatter: "进水悬浮物：{c}",
               },
             },
             {
@@ -153,11 +143,11 @@ const setOption = async (xData: any[], yData: any[], yData2: any[]) => {
         },
       },
       {
-        data: yData2,
+        data: times.csxf,
         type: "line",
         smooth: true,
         symbol: "none", //去除点
-        name: "报警2次数",
+        name: "出水悬浮物",
         color: "rgba(9,202,243,.7)",
         areaStyle: {
           //右，下，左，上
@@ -198,7 +188,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[]) => {
                 borderRadius: 6,
                 borderColor: "rgba(9,202,243,.5)",
                 padding: [7, 14],
-                formatter: "进水悬浮物：{c}",
+                formatter: "出水悬浮物：{c}",
                 borderWidth: 0.5,
               },
             },
@@ -223,9 +213,10 @@ const setOption = async (xData: any[], yData: any[], yData2: any[]) => {
     ],
   };
 };
-onMounted(() => {
-  getData();
-});
+
+setOption();
+})
+
 </script>
 
 <template>

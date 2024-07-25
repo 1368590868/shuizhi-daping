@@ -15,11 +15,11 @@ const UtilVar:UtilVarType = {
 const runtimeType:any = {
 
     production: () => {
-
+        UtilVar.baseUrl= `http://120.46.92.201:5600`
     },
     //开发环境
     development: () => {
-        // UtilVar.baseUrl= `http://www.xihuanmantou.cn:19527`
+        UtilVar.baseUrl= `http://120.46.92.201:5600`
 
     },
     hash:()=>{

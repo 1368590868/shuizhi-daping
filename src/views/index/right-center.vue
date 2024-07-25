@@ -1,46 +1,39 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted, nextTick } from "vue";
+import { ref, reactive, onMounted, nextTick, watchEffect } from "vue";
 import { installationPlan } from "@/api";
 import { graphic } from "echarts/core";
 import { ElMessage } from "element-plus";
-import {useRequest} from "@/stores/index"
+import { useRequest } from "@/stores/index";
 
-const {times}  = useRequest()
+const { times } = useRequest();
 
 const option = ref({});
-const getData = () => {
-  installationPlan()
-    .then((res) => {
-      console.log("中下--安装计划", res);
-      if (res.success) {
-        setOption(res.data);
-      } else {
-        ElMessage({
-          message: res.msg,
-          type: "warning",
-        });
-      }
-    })
-    .catch((err) => {
-      ElMessage.error(err);
-    });
-};
-const setOption = async (newData: any) => {
-  option.value = {
 
-    color: ['#80FFA5',  '#FF0087'],
-  tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-      type: 'cross',
-      label: {
-        backgroundColor: '#6a7985'
-      }
+
+
+watchEffect(()=>{
+  const setOption = async () => {
+  option.value = {
+    color: ["#80FFA5", "#FF0087"],
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "cross",
+        label: {
+          backgroundColor: "#6a7985",
+        },
+      },
+    },
+    axisLabel: {
+        color: "#7EB7FD",
+        fontWeight: "500",
+      },
+    legend: {
+      data: ["1号", "2号"],
+      textStyle: {
+      color: '#fff'
     }
-  },
-  legend: {
-    data: ['1号', '2号']
-  },
+    },
     grid: {
       left: "50px",
       right: "40px",
@@ -90,9 +83,9 @@ const setOption = async (newData: any) => {
         barWidth: 10,
         itemStyle: {
           borderRadius: 5,
-          color: "#956FD4"
+          color: "#956FD4",
         },
-        data: newData.barData,
+        data: times.zgywa,
       },
       {
         name: "2号",
@@ -101,23 +94,25 @@ const setOption = async (newData: any) => {
         barWidth: 10,
         itemStyle: {
           itemStyle: {
-          color: "#F02FC2",
-        },
+            color: "#F02FC2",
+          },
         },
         z: -12,
-        data: newData.lineData,
+        data: times.zgywb,
       },
-
     ],
   };
 };
-onMounted(() => {
-  getData();
-});
+setOption();
+})
 </script>
 
 <template>
-  <v-chart class="chart" :option="option" v-if="JSON.stringify(option) != '{}'" />
+  <v-chart
+    class="chart"
+    :option="option"
+    v-if="JSON.stringify(option) != '{}'"
+  />
 </template>
 
 <style scoped lang="scss"></style>

@@ -9,7 +9,7 @@ export const useSettingStore = defineStore('setting', () => {
     rightBottomSwiper: true,//右下轮播
   })
   const defaultOption = ref({
-    step: 4, // 数值越大速度滚动越快
+    step: .3, // 数值越大速度滚动越快
     hover: true, // 是否开启鼠标悬停stop
     wheel: false,//在开启鼠标悬停的情况下是否开启滚轮滚动，默认不开启
     openWatch: true, // 开启数据实时监控刷新dom

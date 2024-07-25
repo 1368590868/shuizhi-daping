@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive, watchEffect } from "vue";
 import { graphic } from "echarts/core";
 import { countUserNum } from "@/api";
 import {ElMessage} from "element-plus"
@@ -7,41 +7,12 @@ import  * as echarts from "echarts";
 import {useRequest} from "@/stores/index"
 
 const {times}  = useRequest()
-
-let colors = ["#0BFC7F", "#A0A0A0", "#F48C02", "#F4023C"];
 const option = ref({});
-const state = reactive({
-  lockNum: 0,
-  offlineNum: 0,
-  onlineNum: 0,
-  alarmNum: 0,
-  totalNum: 0,
-});
-const echartsGraphic = (colors: string[]) => {
-  return new graphic.LinearGradient(1, 0, 0, 0, [
-    { offset: 0, color: colors[0] },
-    { offset: 1, color: colors[1] },
-  ]);
-};
-const getData = () => {
-  countUserNum().then((res) => {
-    console.log("左中--用户总览",res);
-    if (res.success) {
-      state.lockNum = res.data.lockNum;
-      state.offlineNum = res.data.offlineNum;
-      state.onlineNum = res.data.onlineNum;
-      state.totalNum = res.data.totalNum;
-      state.alarmNum = res.data.alarmNum;
-      setOption();
-    }else{
-      ElMessage.error(res.msg)
-    }
-  }).catch(err=>{
-    ElMessage.error(err)
-  });
-};
-getData();
-const setOption = () => {
+
+
+
+watchEffect(()=>{
+  const setOption = () => {
   option.value = {
   color: ['#80FFA5',  '#FF0087'],
   tooltip: {
@@ -54,7 +25,10 @@ const setOption = () => {
     }
   },
   legend: {
-    data: ['进水', '出水']
+    data: ['进水', '出水'],
+    textStyle: {
+      color: '#fff'
+    }
   },
   toolbox: {
     feature: {
@@ -76,9 +50,12 @@ const setOption = () => {
   yAxis: [
     {
       type: 'value'
-    }
+    },
   ],
-
+  axisLabel: {
+        color: "#7EB7FD",
+        fontWeight: "500",
+      },
   series: [
     {
       name: '进水',
@@ -105,7 +82,7 @@ const setOption = () => {
       emphasis: {
         focus: 'series'
       },
-      data: [140, 232, 101, 264, 90, 340, 250],
+      data: times.jsll,
       markPoint: {
           data: [
             {
@@ -173,7 +150,7 @@ const setOption = () => {
       emphasis: {
         focus: 'series'
       },
-      data: times.jsll,
+      data: times.csll,
       markPoint: {
           data: [
             {
@@ -204,6 +181,11 @@ const setOption = () => {
   ]
 };
 };
+  setOption();
+
+})
+
+
 </script>
 
 <template>

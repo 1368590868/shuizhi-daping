@@ -8,6 +8,7 @@ import { StorageEnum, RequestEnum } from "@/enums";
 import { getLocalStorage } from "@/utils";
 
 import UtilVar from "../config/UtilVar";
+import { ElMessage } from "element-plus";
 let baseUrl = UtilVar.baseUrl;
 const CancelToken = axios.CancelToken;
 
@@ -20,7 +21,7 @@ axios.interceptors.request.use(
     let token: any = getLocalStorage(StorageEnum.GB_TOKEN_STORE);
     if (token) {
       // @ts-ignore
-      config.headers.common[RequestEnum.GB_TOKEN_KEY] = token;
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     // @ts-ignore
     config.headers["Content-Type"] = "application/json;charset=utf-8";
@@ -45,7 +46,16 @@ export type FileConfig = {
  */
 axios.interceptors.response.use(
   (response: AxiosResponse) => {
-    // console.log("response", response);
+
+    console.log("response", response);
+    if(response.data.code == 401){
+      // 跳转登录页面
+      ElMessage.error("登录过期，请重新登录");
+      setTimeout(() => {
+        
+        window.location.replace("http://120.46.92.201:5600/login")
+      }, 1000);
+    }
     if (response.status !== 200) {
       return Promise.reject(response);
     }

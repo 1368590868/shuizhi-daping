@@ -9,6 +9,8 @@ const indexUrl=  {
     'rightTop':"/bigscreen/alarmNum", //报警次数
     'rightBottom':'/bigscreen/rightBottom',//右下 
     'rightCenter':'/bigscreen/ranking',// 报警排名
+    'data':'/prod-api/mqtt/zhou/listMap',
+    'list':'/prod-api/mqtt/zhou/list'
 }
 
 export default indexUrl
@@ -51,4 +53,12 @@ export const ranking=(param:any={})=>{
 /**右下--设备状态 */
 export const rightBottom=(param:any={})=>{
     return GET(indexUrl.rightBottom,param)
+}
+
+export const getDetail = (param:any={})=>{
+    return GET(indexUrl.data,param)
+}
+
+export const getList = (param:any={})=>{
+    return GET(indexUrl.list,param)
 }

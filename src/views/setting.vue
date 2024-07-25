@@ -37,6 +37,10 @@ const indexRadioChange=(flag: boolean)=>{
     rightBottomSwiper:rightBottomRadio.value,//右下轮播
   });
 }
+
+const goMore=()=>{
+  window.open("http://120.46.92.201:5600/mqtt/dater")
+}
 </script>
 
 <template>
@@ -85,6 +89,10 @@ const indexRadioChange=(flag: boolean)=>{
             <el-radio :label="false">否</el-radio>
           </el-radio-group>
         </div>
+      </div>
+      <div class="left_shu" >查看更多数据</div>
+      <div>
+        <el-button  @click="goMore">更多</el-button>
       </div>
     </template>
     <!-- <template #footer>
