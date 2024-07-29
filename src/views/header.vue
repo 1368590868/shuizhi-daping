@@ -29,7 +29,7 @@ timeFn()
     <div class="guang"></div>
     <div class="d-flex jc-center">
       <div class="title">
-        <span class="title-text">嘉凡污水处理信息化平台</span>
+        <span class="title-text">瀚洋环保污水处理信息化平台</span>
       </div>
     </div>
     <div class="timers">
