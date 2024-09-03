@@ -2,7 +2,7 @@
 import {  RouterView, useRouter } from 'vue-router'
 import {useRequest} from '@/stores/request/useRequest'
 import { onBeforeMount, onMounted, onUnmounted } from 'vue';
-
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 const {setToken,getData} = useRequest()
 const router = useRouter()
 
@@ -24,7 +24,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <RouterView />
+    <el-config-provider :locale="zhCn">
+      <RouterView />
+    </el-config-provider>
 </template>
 
 <style scoped>

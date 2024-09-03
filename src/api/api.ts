@@ -46,8 +46,6 @@ export type FileConfig = {
  */
 axios.interceptors.response.use(
   (response: AxiosResponse) => {
-
-    console.log("response", response);
     if(response.data.code == 401){
       // 跳转登录页面
       ElMessage.error("登录过期，请重新登录");
