@@ -21,7 +21,7 @@
       />
       <el-table-column
         align="center"
-        prop="csxf"
+        prop="zxxf"
         label="进水悬浮物"
         width="75"
       />
