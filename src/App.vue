@@ -3,7 +3,7 @@ import {  RouterView, useRouter } from 'vue-router'
 import {useRequest} from '@/stores/request/useRequest'
 import { onBeforeMount, onMounted, onUnmounted } from 'vue';
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-const {setToken,getData} = useRequest()
+const {setToken,getData,getTokens} = useRequest()
 const router = useRouter()
 
 
@@ -13,6 +13,7 @@ onMounted(() => {
   const token = new URL(location.href).searchParams.get('token') ?? ''
   
   setToken(token )
+  getTokens()
  timer = setInterval(() => {
     getData()
   }, 1000 * 3)

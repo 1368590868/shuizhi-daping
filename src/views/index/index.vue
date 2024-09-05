@@ -23,7 +23,7 @@ import TableList from "./tableList.vue";
       <ItemWrap class="contetn_left-top contetn_lr-item " style="height: 400px" title="进出水PH">
         <LeftTop />
       </ItemWrap>
-      <ItemWrap class="contetn_left-center contetn_lr-item" title="进出水流量">
+      <ItemWrap class="contetn_left-center contetn_lr-item" title="进水流量">
         <LeftCenter />
       </ItemWrap>
       <ItemWrap

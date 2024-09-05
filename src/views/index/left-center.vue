@@ -25,7 +25,7 @@ watchEffect(()=>{
     }
   },
   legend: {
-    data: ['进水', '出水'],
+    data: ['进水1号', '进水2号'],
     textStyle: {
       color: '#fff'
     }
@@ -58,7 +58,7 @@ watchEffect(()=>{
       },
   series: [
     {
-      name: '进水',
+      name: '进水1号',
       type: 'line',
       stack: 'Total',
       smooth: true,
@@ -102,7 +102,7 @@ watchEffect(()=>{
                 padding: [7, 14],
                 borderWidth: 0.5,
                 borderColor: "#80FFA5",
-                formatter: "最大进水：{c}",
+                formatter: "最大进水1号：{c}",
               },
             },
             {
@@ -126,7 +126,7 @@ watchEffect(()=>{
 
 
     {
-      name: '出水',
+      name: '进水2号',
       type: 'line',
       stack: 'Total',
       smooth: true,
@@ -170,7 +170,7 @@ watchEffect(()=>{
                 padding: [7, 14],
                 borderWidth: 0.5,
                 borderColor: "#FF0087",
-                formatter: "最大出水：{c}",
+                formatter: "最大进水2号：{c}",
               },
             },
 

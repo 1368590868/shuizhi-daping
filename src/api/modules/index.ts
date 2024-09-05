@@ -10,7 +10,8 @@ const indexUrl=  {
     'rightBottom':'/bigscreen/rightBottom',//右下 
     'rightCenter':'/bigscreen/ranking',// 报警排名
     'data':'/prod-api/mqtt/zhou/listMap',
-    'list':'/prod-api/mqtt/zhou/list'
+    'list':'/prod-api/mqtt/zhou/list',
+    'getToken':'/prod-api/mqtt/ysy/getToken',
 }
 
 export default indexUrl
@@ -61,4 +62,8 @@ export const getDetail = (param:any={})=>{
 
 export const getList = (param:any={})=>{
     return GET(indexUrl.list,param)
+}
+
+export const getToken = (param:any={})=>{
+    return GET(indexUrl.getToken,param)
 }

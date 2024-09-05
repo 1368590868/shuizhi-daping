@@ -20,6 +20,10 @@ const timeFn = () => {
   }, 1000);
 };
 timeFn()
+
+const onNotice = () => {
+  window.open("http://120.46.92.201:5600/prod-api/mqtt/gjxx/list?pageNum=1&pageSize=10")
+}
 </script>
 
 <template>
@@ -29,12 +33,14 @@ timeFn()
     <div class="guang"></div>
     <div class="d-flex jc-center">
       <div class="title">
-        <span class="title-text">瀚洋环保污水处理信息化平台</span>
+        <span class="title-text">翰洋环保污水处理信息化平台</span>
       </div>
     </div>
     <div class="timers">
       {{ dateData.dateYear }} {{ dateData.dateWeek }} {{ dateData.dateDay }}
-
+     <div style="margin-left: 10px;" @click="onNotice">
+      <svg xmlns="http://www.w3.org/2000/svg"  width="20px" height="20px" viewBox="0 0 1024 1024" data-v-d2e47025=""><path fill="currentColor" d="M512 64a64 64 0 0 1 64 64v64H448v-64a64 64 0 0 1 64-64"></path><path fill="currentColor" d="M256 768h512V448a256 256 0 1 0-512 0zm256-640a320 320 0 0 1 320 320v384H192V448a320 320 0 0 1 320-320"></path><path fill="currentColor" d="M96 768h832q32 0 32 32t-32 32H96q-32 0-32-32t32-32m352 128h128a64 64 0 0 1-128 0"></path></svg>
+     </div>
       <div class="setting_icon"   @click="setSettingShow(true)">
           <img src="@/assets/img/headers/setting.png" alt="设置">
       </div>

@@ -2,6 +2,7 @@
 import dayjs from "dayjs";
 import EZUIKit from "ezuikit-js";
 import { onMounted, reactive, ref } from "vue";
+import { useRequest } from "@/stores";
 
 interface IPlayer {
   play: Function;
@@ -18,6 +19,8 @@ interface IPlayer {
   destroy: Function;
 }
 
+const { token } = useRequest();
+
 let player: IPlayer;
 const initCarmea = "1";
 const dialogFormVisible = ref(false);
@@ -25,7 +28,7 @@ const formLabelWidth = "100px";
 
 const form = reactive({
   camera: initCarmea,
-  isRelook:false
+  isRelook: false,
 });
 
 const play = () => {
@@ -108,13 +111,13 @@ const destroy = () => {
 
 const onConfirm = () => {
   init(form.camera, form.isRelook);
-  if(!form.isRelook){
-    location.reload()
-  }
+  // if (!form.isRelook) {
+  //   location.reload();
+  // }
   dialogFormVisible.value = false;
 };
 
-const init = (url: string,isRelook:boolean = false) => {
+const init = (url: string, isRelook: boolean = false) => {
   if (player) {
     destroy();
   }
@@ -125,17 +128,20 @@ const init = (url: string,isRelook:boolean = false) => {
   //     var accessToken = res.data.accessToken;
   player = new EZUIKit.EZUIKitPlayer({
     id: "video-container", // 视频容器ID
-    accessToken:
-      "at.ad43wkepc288nucaaxxo4dyr6ci2ftdy-7p3jpf1wi2-0a4ediv-jhlco6b0b",
-    url:`ezopen://aa123456@open.ys7.com/FE9292620/${url}.${isRelook ? 'cloud.rec' :'live'}`,
+    accessToken: JSON.parse(token['msg']).data.accessToken,
+    url: `ezopen://aa123456@open.ys7.com/FE9292620/${url}.${
+      isRelook ? "cloud.rec" : "live"
+    }`,
     // simple: 极简版; pcLive: pc直播; pcRec: pc回放; mobileLive: 移动端直播; mobileRec: 移动端回放;security: 安防版; voice: 语音版;
-    template:isRelook ?'pcRec' : "441d3ac229a349f1ba658bfa19cf4f2c",
+    template: isRelook ? "pcRec" : "441d3ac229a349f1ba658bfa19cf4f2c",
     // template: "pcRec",
     plugin: ["talk"], // 加载插件，talk-对讲
     language: "zh", // zh | en
     handleError: (err: any) => {
       console.error("handleError", err);
     },
+    width: 800,
+    height: 460,
     // staticPath: "/ezuikit_static", // 如果想使用本地静态资源，请复制根目录下ezuikit_static 到当前目录下， 然后设置该值
   });
   // @ts-ignore
@@ -150,7 +156,7 @@ onMounted(() => {
 
 <template>
   <div class="hello-ezuikit-js relative">
-    <div class="absolute right-[10px] top-[30px] z-50">
+    <div class="absolute right-[10px] top-[40px] z-50">
       <el-button type="primary" :text="true" @click="dialogFormVisible = true">
         更多操作
       </el-button>
@@ -163,22 +169,9 @@ onMounted(() => {
             v-model="form.camera"
             placeholder="please select your zone"
           >
-            <el-option
-              label="摄像头1"
-              value="1"
-            />
-            <el-option
-              label="摄像头2"
-              value="2"
-            />
-            <el-option
-              label="摄像头3"
-              value="3"
-            />
-            <el-option
-              label="摄像头4"
-              value="4"
-            />
+            <el-option label="摄像头1" value="1" />
+            <el-option label="摄像头2" value="2" />
+          
           </el-select>
         </el-form-item>
         <el-form-item label="回放查看" :label-width="formLabelWidth">
@@ -194,17 +187,4 @@ onMounted(() => {
     </el-dialog>
   </div>
 </template>
-<style lang="scss" scoped>
-:deep(#mobile-ez-ptz-container) {
-  display: none !important;
-}
-
-:deep(#video-container-wrap)  {
-  width: 100% !important;
-  height: 100% !important;
-  #video-container {
-    width: 100% !important;
-    height: 100% !important;
-  }
-}
-</style>
+<style lang="scss" scoped></style>
