@@ -48,10 +48,10 @@ axios.interceptors.response.use(
   (response: AxiosResponse) => {
     if(response.data.code == 401){
       // 跳转登录页面
-      ElMessage.error("登录过期，请重新登录");
+      // ElMessage.error("登录过期，请重新登录");
       setTimeout(() => {
         
-        window.location.replace("http://120.46.92.201:5600/login")
+        // window.location.replace("http://120.46.92.201:5600/login")
       }, 1000);
     }
     if (response.status !== 200) {

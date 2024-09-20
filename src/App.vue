@@ -10,17 +10,17 @@ const router = useRouter()
 let timer:any = null
 
 onMounted(() => {
-  const token = new URL(location.href).searchParams.get('token') ?? ''
+//   const token = new URL(location.href).searchParams.get('token') ?? ''
   
-  setToken(token )
-  getTokens()
- timer = setInterval(() => {
-    getData()
-  }, 1000 * 3)
+//   setToken(token )
+//   getTokens()
+//  timer = setInterval(() => {
+//     getData()
+//   }, 1000 * 3)
 })
 
 onUnmounted(() => {
-  clearInterval(timer)
+  // clearInterval(timer)
 })
 </script>
 

@@ -1,0 +1,296 @@
+﻿<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>某公司大数据监控平台</title>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/echarts.min.js"></script>
+	<script type="text/javascript" src="js/china.js"></script>
+	<!-- <script type="text/javascript" src="js/map.js"></script> -->
+	<script type="text/javascript" src="js/js.js"></script>
+	<script type="text/javascript" src="js/Bubble.js"></script>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+	<div>
+		
+	</div>
+	<div class="head clearfix " style="display: flex; justify-content: center;">
+
+		
+		<h1 class="pulll_left" style="">数字化用工数据中心</h1>
+
+		<div class="time" id="showTime">2018/6/12 17:00:12</div>
+		<script>
+			var t = null;
+			t = setTimeout(time, 1000);//開始运行
+			function time() {
+				clearTimeout(t);//清除定时器
+				dt = new Date();
+				var y = dt.getFullYear();
+				var mt = dt.getMonth() + 1;
+				var day = dt.getDate();
+				var h = dt.getHours();//获取时
+				var m = dt.getMinutes();//获取分
+				var s = dt.getSeconds();//获取秒
+				document.getElementById("showTime").innerHTML = y + "/" + mt + "/" + day + " " + h + ":" + m + ":" + s + "";
+				t = setTimeout(time, 1000); //设定定时器，循环运行     
+			}
+
+		</script>
+	</div>
+	<div class="mainbox">
+		<!-- leftTop -->
+		<ul class="clearfix nav1" style="height: 700px;">
+			<li style="width: 22%">
+				<div class="box">
+					<div class="tit">用工方式</div>
+					<div class="boxnav" style="height: 260px;">
+						<div class="" style="height: 190px" id="echart1"></div>
+						<div class="leidanav" style="margin-top: 8px;">
+							<ul class="clearfix" style="display: flex; justify-content:center">
+								<li><span>直接聘用</span>
+									<p>43</p>
+								</li>
+								<li><span>劳务派遣</span>
+									<p>2189</p>
+								</li>
+								<li><span>购买服务</span>
+									<p>52</p>
+								</li>
+								<li><span>其他</span>
+									<p>57</p>
+								</li>
+								
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- leftCenter -->
+				<div class="box">
+					<div class="tit">社保缴纳</div>
+					<div class="boxnav" style="height: 327px;">
+						<table class="table1" width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tbody>
+								<tr>
+									<th>序号</th>
+									<th>险种</th>
+									<th>人数</th>
+
+
+								</tr>
+								<tr>
+									<td>1</td>
+									<td><span class="text-w">养老保险</span></td>
+									<td><span class="text-b">2112</span></td>
+									
+								</tr>
+								<tr>
+									<td>2</td>
+									<td><span class="text-w">医疗保险</span></td>
+									<td><span class="text-b">2115</span></td>
+									
+								</tr>
+								<tr>
+									<td>3</td>
+									<td><span class="text-w">工伤保险</span></td>
+									<td><span class="text-b">2114</span></td>
+									
+								</tr>
+								<tr>
+									<td>4</td>
+									<td><span class="text-w">失业保险</span></td>
+									<td><span class="text-b">1930</span></td>
+							
+								</tr>
+								<tr>
+									<td>5</td>
+									<td><span class="text-w">未参保</span></td>
+									<td><span class="text-b">226</span></td>
+									
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</li>
+			<li style="width: 56%">
+
+				<div class="box">
+					<div class="boxnav mapc" style="height: 688px; position: relative">
+						<div class="mapnav">
+							<ul>
+								
+								<li>
+									<div><span>人资公司</span>
+										<p>11</p>
+									</div>
+								</li>
+								<li>
+									<div><span>用工企业</span>
+										<p>96</p>
+									</div>
+								</li>
+								<li>
+									<div><span>总人数</span>
+										<p>2341</p>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="mapnav2">
+
+							<div class="box">
+								<div class="tit">工作年限</div>
+								<div class="boxnav" style="height: 130px;" id="sysx">
+
+
+								</div>
+								<!-- <div class="leidanav leidanav3" style="margin-bottom: 15px;">
+									<ul class="clearfix">
+										<li><span>业务笔数</span>
+											<p>128</p>
+										</li>
+										<li><span>业务收益</span>
+											<p>100</p>
+										</li>
+										<li><span>业务笔数</span>
+											<p>28</p>
+										</li>
+										<li><span>业务收益</span>
+											<p>28</p>
+										</li>
+									</ul>
+								</div> -->
+
+							</div>
+						</div>
+
+						<div class="map" id="map" >
+							<img src="images/map2.webp" width="85%"/>
+						</div>
+
+						<!-- <script>
+							$(".mapbtn a").hover(function () {
+								var ind = $(this).index()
+								$(".mapnav ul").eq(ind).show().siblings().hide()
+							})
+						</script> -->
+					</div>
+				</div>
+
+			</li>
+			<li style="width: 22%">
+				<!-- rightTop -->
+				<div class="box">
+					<div class="tit">人均月薪</div>
+					<div class="boxnav" id="echart3" style="height: 260px;">
+
+					</div>
+				</div>
+				<!-- rightCenter -->
+				<div class="box">
+					<div class="tit">公积金缴纳</div>
+					<div class="boxnav" style="height: 327px;">
+					
+
+						<div style="height: 327px; float: left; width: 100%">
+
+							<div class="text-b tit02" style="text-align: center;"></div>
+							<div class="tagcloud" style="width: 100%; height: 100%;">
+								<!-- bo大小 co颜色 -->
+								<a class="b02 co01" style="display: flex; flex-direction: column;align-items: center;" > <div>已缴纳</div> <div>1174</div></a>
+								<a class="b02 co02" style="display: flex; flex-direction: column;align-items: center;"><div>未缴纳</div><div>1167</div> </a>
+								
+							</div>
+							<script type="text/javascript">
+								/*3D标签云*/
+								tagcloud({
+									selector: ".tagcloud",  //元素选择器
+									fontsize: 6,       //基本字体大小, 单位px
+									radius: 40,         //滚动半径, 单位px 页面宽度和高度的五分之一
+									mspeed: "slow",   //滚动最大速度, 取值: slow, normal(默认), fast
+									ispeed: "slow",   //滚动初速度, 取值: slow, normal(默认), fast
+									direction: 0,     //初始滚动方向, 取值角度(顺时针360): 0对应top, 90对应left, 135对应right-bottom(默认)...
+									keep: false          //鼠标移出组件后是否继续随鼠标滚动, 取值: false, true(默认) 对应 减速至初速度滚动, 随鼠标滚动
+								});
+							</script>
+						</div>
+					</div>
+				</div>
+
+			</li>
+		</ul>
+		<!-- bottom -->
+		<div class="box" style="padding: 20px 0;">
+			<ul class="clearfix nav2 ">
+				<li style="width:35%">
+					<!-- bottomLeft -->
+					<div class="tit01">年龄学历</div>
+					<div class="" id="">
+						<div style="float: left; width: 56%; height: 200px" id="fb01"></div>
+						<div style="float: left; width: 44%; height: 200px" id="fb02"></div>
+
+					</div>
+					<div class="leidanav leidanav2">
+						<ul class="clearfix">
+							<li  style="margin-top: -10px;"><span>总人数</span>
+								<p>2341</p>
+							</li>
+							<li style="margin-top: -10px;"><span>男职员</span>
+								<p>1277</p>
+							</li>
+							<li style="margin-top: -10px;"><span>女职员</span>
+								<p>1064</p>
+							</li>
+
+						</ul>
+					</div>
+				</li>
+				<!-- bottomCenter -->
+				<li style="width:25%">
+					<div class="tit01">岗位类别</div>
+					<div class="ftechart" id="echart4"></div>
+				</li>
+				<!-- bottomCenter -->
+				<li style="width:15%">
+					<div class="tit01">职称</div>
+					<div class="" style="height:100%;display: flex; align-items: center;">
+						<!-- <div style="float: left; width: 50%; height: 100%" class="wancheng">
+							<div><span>已完成人数</span>
+								<h3>1835<i>人</i></h3>
+							</div>
+							<div class="yuan">
+								<span>19%</span>
+							</div>
+						</div> -->
+						<div style="float: left; width: 100%; height: 50%" id="myd1"></div>
+
+
+
+					</div>
+
+				</li>
+				<!-- bottomRight -->
+				<li style="width:25%">
+					<div class="tit01">残疾人就业情况</div>
+
+					<div class="" id="">
+						<div style="float: left; width: 40%; height: 200px" id="fb03"></div>
+						<div style="float: left; width: 60%; height: 200px" id="fb04"></div>
+
+					</div>
+
+				</li>
+			</ul>
+		</div>
+
+
+	</div>
+</body>
+
+</html>

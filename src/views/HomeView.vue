@@ -27,7 +27,6 @@ const wrapperStyle = {};
     :autoScale="isScale"
   >
     <div class="content_wrap">
-      <Headers />
       <RouterView />
       <MessageContent />
     </div>
@@ -38,10 +37,9 @@ const wrapperStyle = {};
 .content_wrap {
   width: 100%;
   height: 100%;
-  padding: 16px 16px 16px 16px;
-  box-sizing: border-box;
-  background-image: url("@/assets/img/pageBg.png");
-  background-size: cover;
-  background-position: center center;
+  // box-sizing: border-box;
+  // background-image: url("@/assets/img/pageBg.png");
+  // background-size: cover;
+  // background-position: center center;
 }
 </style>
