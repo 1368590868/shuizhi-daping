@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-table
+    <img src="@/assets/img/table_img.webp" alt="工艺流程图" />
+    <!-- <el-table
       :data="list"
       border
       :table-layout="'fixed'"
@@ -41,7 +42,7 @@
         label="2号转股液位"
         width="90"
       />
-    </el-table>
+    </el-table> -->
     <!-- <el-pagination
       background
       layout="prev, pager, next"
@@ -55,11 +56,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { useRequest } from "@/stores";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 
-const getDate = (date: string) => {
-  return dayjs(date).format(" MM-DD HH:mm:ss");
-};
+// const getDate = (date: string) => {
+//   return dayjs(date).format(" MM-DD HH:mm:ss");
+// };
 
 const { list } = useRequest();
 onMounted(() => {
