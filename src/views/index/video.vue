@@ -19,7 +19,7 @@ interface IPlayer {
   destroy: Function;
 }
 
-const { token } = useRequest();
+const { getTokens } = useRequest();
 
 let player: IPlayer;
 const initCarmea = "1";
@@ -121,14 +121,11 @@ const init = (url: string, isRelook: boolean = false) => {
   if (player) {
     destroy();
   }
-  console.group("mounted 组件挂载完毕状态===============》");
-  // fetch("https://open.ys7.com/jssdk/ezopen/demo/token")
-  //   .then((response) => response.json())
-  //   .then((res) => {
-  //     var accessToken = res.data.accessToken;
-  player = new EZUIKit.EZUIKitPlayer({
+
+    getTokens().then(res => {
+      player = new EZUIKit.EZUIKitPlayer({
     id: "video-container", // 视频容器ID
-    accessToken: JSON.parse(token['msg']).data.accessToken,
+    accessToken: JSON.parse(res['msg']).data.accessToken,
     url: `ezopen://aa123456@open.ys7.com/FE9292620/${url}.${
       isRelook ? "cloud.rec" : "live"
     }`,
@@ -146,7 +143,9 @@ const init = (url: string, isRelook: boolean = false) => {
   });
   // @ts-ignore
   window.player = player;
-  // });
+    })
+
+
 };
 
 onMounted(() => {
@@ -155,7 +154,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="hello-ezuikit-js relative">
+  <div class="relative hello-ezuikit-js">
     <div class="absolute right-[10px] top-[40px] z-50">
       <el-button type="primary" :text="true" @click="dialogFormVisible = true">
         更多操作
@@ -171,7 +170,7 @@ onMounted(() => {
           >
             <el-option label="摄像头1" value="1" />
             <el-option label="摄像头2" value="2" />
-          
+
           </el-select>
         </el-form-item>
         <el-form-item label="回放查看" :label-width="formLabelWidth">
@@ -187,4 +186,8 @@ onMounted(() => {
     </el-dialog>
   </div>
 </template>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(#mobile-ez-ptz-container){
+  display: none !important;
+}
+</style>

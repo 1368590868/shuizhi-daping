@@ -25,7 +25,7 @@ export const useRequest = defineStore("request", () => {
 
   const tableList = reactive([]);
   const token = ref({
-    msg: '{"msg":"操作成功!","code":"200","data":{"accessToken":"at.d1smf975clyjse3e64ay7k4zdyrd3fye-7p3jzf5vlf-0r1o629-oplgmrjnn","expireTime":1726037506611}}',
+    msg: '{"msg":"操作成功!","code":"200","data":{"accessToken":"","expireTime":1726037506611}}',
     code: 200,
   });
 
@@ -36,6 +36,7 @@ export const useRequest = defineStore("request", () => {
   const getTokens = async () => {
     const res3 = await getToken();
     token.value = res3;
+    return res3
   };
 
   const getData = async () => {
