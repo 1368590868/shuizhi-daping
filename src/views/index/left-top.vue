@@ -21,7 +21,7 @@ const state = reactive({
 watchEffect(()=>{
   const setOption = () => {
   option.value = {
-  color: ['#80FFA5',  '#FF0087'],
+  color: [ '#FF0087','#80FFA5', ],
   tooltip: {
     trigger: 'axis',
     axisPointer: {
